@@ -34,7 +34,7 @@ def main():
         im = im.convert('RGB')
 
     for i in [5, 10, 25, 50, 75, 100]:
-         nameOut = ("{}{}{}.jpeg".format(nameBase, '_pil_', f'{i:03}'))
+         nameOut = ("{}{}{}.jpg".format(nameBase, '_pil_', f'{i:03}'))
          fileOut = os.path.join(dirOut, nameOut)
          im2 = im
          im2.save(fileOut, quality=i)
