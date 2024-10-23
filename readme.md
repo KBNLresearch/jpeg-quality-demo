@@ -16,6 +16,8 @@ pip install pillow
 - [generate-testimages-im.sh](./generate-testimages-im.sh): generates a set of JPEG images at 6 quality levels from a user-defined source image using [ImageMagick](https://imagemagick.org/).
 - [test-quantization.py](./test-quantization.py): reads the quantization tables of one or more files and writes the values to 2 comma separated text files.
 
+Both quality estimation scripts are derived and modified from [the Python port of ImageMagick's heuristic](https://gist.github.com/eddy-geek/c0f01dc5401dc50a49a0a821cdc9b3e8) by [Eddy O (AKA "eddygeek")](https://github.com/eddy-geek). In turn this port is based on [ImageMagick's original code](https://github.com/ImageMagick/ImageMagick6/blob/bf9bc7fee9f3cea9ab8557ad1573a57258eab95b/coders/jpeg.c#L925).
+
 ## Data
 
 The directory [images](./images/) contains the following test images:
