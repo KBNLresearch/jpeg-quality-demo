@@ -27,7 +27,6 @@ def main():
     imageIn =  args.imageIn
     dirOut = args.dirOut
     nameBase = os.path.splitext(os.path.basename(imageIn))[0]
-    print(nameBase)
     with open(imageIn, 'rb') as fIn:
         im = Image.open(fIn)
         im.load()
