@@ -81,8 +81,9 @@ def computeJPEGQuality(image):
         else:
             S = 200 - 2*Q
 
-        # Initialize sum of squared differences, with is used to characterize
-        # correspondence between image and standard q tables for each quality
+        # Initialize sum of squared differences, which is used to characterize
+        # agreement between image q tables and standard q tables for each
+        # quality level
         sumSqDiffs = 0
 
         # Iterate over all values in quantization tables for this quality
