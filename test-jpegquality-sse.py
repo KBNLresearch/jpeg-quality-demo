@@ -114,6 +114,7 @@ def computeJPEGQuality(image):
     sumSqDiffs = min(errors)
     return qualityEst, sumSqDiffs
 
+
 def main():
     args = parseCommandLine()
     myJPEGs =  args.JPEGsIn
