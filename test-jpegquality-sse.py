@@ -75,7 +75,7 @@ def computeJPEGQuality(image):
     for i in range(100):
         # Quality level
         Q = i+1
-        # Scaling factor
+        # Scaling factor (Eq 1 in Kornblum, 2008)
         if Q < 50:
             S = 5000/Q
         else:
@@ -88,6 +88,7 @@ def computeJPEGQuality(image):
         # Iterate over all values in quantization tables for this quality
         for j in range(64):
             # Compute standard luminance table value from scaling factor
+            # (Eq 2 in Kornblum, 2008)
             Tslum = min(max(math.floor((S*lum_base[j] + 50) / 100), 1), 255)
             # Update sum of squared differences relative to corresponding
             # image table value
@@ -95,6 +96,7 @@ def computeJPEGQuality(image):
 
             if noTables >= 2:
                 # Compute standard chrominance table value from scaling factor
+                # (Eq 2 in Kornblum, 2008)
                 Tschrom = min(max(math.floor((S*chrom_base[j] + 50) / 100), 1), 255)
                 # Update sum of squared differences relative to corresponding
                 # image table value
