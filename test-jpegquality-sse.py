@@ -89,14 +89,14 @@ def computeJPEGQuality(image):
         for j in range(64):
             # Compute standard luminance table value from scaling factor
             Tslum = min(max(math.floor((S*lum_base[j] + 50) / 100), 1), 255)
-            # Update sum of squared differences relative to corrsponding
+            # Update sum of squared differences relative to corresponding
             # image table value
             sumSqDiffs += (qdict[0][j] - Tslum)**2
 
             if noTables >= 2:
                 # Compute standard chrominance table value from scaling factor
                 Tschrom = min(max(math.floor((S*chrom_base[j] + 50) / 100), 1), 255)
-                # Update sum of squared differences relative to corrsponding
+                # Update sum of squared differences relative to corresponding
                 # image table value
                 sumSqDiffs  += (qdict[1][j] - Tschrom)**2
 
