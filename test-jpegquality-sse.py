@@ -33,7 +33,7 @@ def parseCommandLine():
 
 def computeJPEGQuality(image):
     """Returns JPEG quality based on best correspondence between image
-    quantization tables and standard tables from Annex K in ISO/IEC 10918-1.
+    quantization tables and standard tables from the JPEG ISO standard.
     
     The image quantization tables are compared against standard quantization
     tables for *all* possible quality levels, which are generated using
@@ -45,7 +45,7 @@ def computeJPEGQuality(image):
     """
 
     # Standard JPEG luminance and chrominance quantization tables
-    # for 50% quality (ISO/IEC 10918-1 : 1993(E)), Annex K
+    # for 50% quality (ISO/IEC 10918-1 : 1993(E)), Annex K)
     lum_base = [16,  11,  12,  14,  12,  10,  16,  14,
                 13,  14,  18,  17,  16,  19,  24,  40,
                 26,  24,  22,  22,  24,  49,  35,  37,
