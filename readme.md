@@ -10,9 +10,9 @@ Below scripts were tested with Python 3.8.10. They use the [Pillow Imaging Libra
 pip install pillow
 ```
 
-- [test-jpegquality-original.py](./test-jpegquality-original.py): computes JPEG quality for one or more files using original ImageMagick heuristic. Option `--verbose` prints out values of all variables in main loop at each iteration.
-- [test-jpegquality-modified.py](./test-jpegquality-modified.py): computes JPEG quality for one or more files using modified ImageMagick heuristic. Option `--verbose` prints out values of all variables in main loop at each iteration.
-- [test-jpegquality-sse.py](./test-jpegquality-sse.py): computes JPEG quality for one or more files using direct comparison against standard JPEG quantization tables.
+- [test-jpegquality-im-original.py](./test-jpegquality-im-original.py): computes JPEG quality for one or more files using original ImageMagick heuristic. Option `--verbose` prints out values of all variables in main loop at each iteration.
+- [test-jpegquality-im-modified.py](./test-jpegquality-im-modified.py): computes JPEG quality for one or more files using modified ImageMagick heuristic. Option `--verbose` prints out values of all variables in main loop at each iteration.
+- [test-jpegquality-tablematch.py](./test-jpegquality-tablematch.py): computes JPEG quality for one or more files using direct comparison against standard JPEG quantization tables.
 - [generate-testimages-pillow.py](./generate-testimages-pillow.py): generates a set of JPEG images at 6 quality levels from a user-defined source image.
 - [generate-testimages-im.sh](./generate-testimages-im.sh): generates a set of JPEG images at 6 quality levels from a user-defined source image using [ImageMagick](https://imagemagick.org/).
 - [test-quantization.py](./test-quantization.py): reads the quantization tables of one or more files and writes the values to 2 comma separated text files.
