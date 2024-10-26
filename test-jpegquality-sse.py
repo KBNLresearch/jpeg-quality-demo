@@ -108,12 +108,16 @@ def computeJPEGQuality(image):
         errors.append(sumSqErrors)
 
     # Quality is estimated as level with smallest sum of squared errors
+    # Note that this will return the smallest quality level in case
+    # the smallest SSE occurs for more than one level!
+    # TODO: perhaps add a check for this and report as output? 
     qualityEst = errors.index(min(errors)) + 1
-    # Compute corresponding root mean squared error.
-    # Value 0 indicates exact match with standard JPEG quantization tables.
-    # Any other value means non-standard tables were used and quality 
-    # estimate is an approximation
-    rmsError = round(math.sqrt(min(errors) / (noTables * 64)), 2)
+    # Corresponding SSE. Value 0 indicates exact match with standard JPEG
+    # quantization tables. Any other value means non-standard tables were
+    # used, and quality estimate is an approximation
+    sumSqErrors = min(errors)
+    # Compute corresponding root mean squared error (easier to interpret)
+    rmsError = round(math.sqrt(sumSqErrors / (noTables * 64)), 3)
 
     return qualityEst, rmsError
 
