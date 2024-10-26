@@ -81,39 +81,41 @@ def computeJPEGQuality(image):
         else:
             S = 200 - 2*Q
 
-        # Initialize sum of squared differences, which is used to characterize
+        # Initialize sum of squared errors, which is used to characterize
         # agreement between image q tables and standard q tables for each
         # quality level
-        sumSqDiffs = 0
+        sumSqErrors = 0
 
         # Iterate over all values in quantization tables for this quality
         for j in range(64):
             # Compute standard luminance table value from scaling factor
             # (Eq 2 in Kornblum, 2008)
             Tslum = min(max(math.floor((S*lum_base[j] + 50) / 100), 1), 255)
-            # Update sum of squared differences relative to corresponding
+            # Update sum of squared errors relative to corresponding
             # image table value
-            sumSqDiffs += (qdict[0][j] - Tslum)**2
+            sumSqErrors += (qdict[0][j] - Tslum)**2
 
             if noTables >= 2:
                 # Compute standard chrominance table value from scaling factor
                 # (Eq 2 in Kornblum, 2008)
                 Tschrom = min(max(math.floor((S*chrom_base[j] + 50) / 100), 1), 255)
-                # Update sum of squared differences relative to corresponding
+                # Update sum of squared errors relative to corresponding
                 # image table value
-                sumSqDiffs  += (qdict[1][j] - Tschrom)**2
+                sumSqErrors  += (qdict[1][j] - Tschrom)**2
 
             j += 1
 
-        errors.append(sumSqDiffs)
+        errors.append(sumSqErrors)
 
-    # Quality is estimated as level with smallest sum of squared differences
+    # Quality is estimated as level with smallest sum of squared errors
     qualityEst = errors.index(min(errors)) + 1
-    # Sum of squared differences value of 0 indicates exact match with standard
-    # JPEG quantization tables; any other value means non-standard tables were used
-    # and estimate is an approximation
-    sumSqDiffs = min(errors)
-    return qualityEst, sumSqDiffs
+    # Compute corresponding root mean squared error.
+    # Value 0 indicates exact match with standard JPEG quantization tables.
+    # Any other value means non-standard tables were used and quality 
+    # estimate is an approximation
+    rmsError = round(math.sqrt(min(errors) / (noTables * 64)), 2)
+
+    return qualityEst, rmsError
 
 
 def main():
@@ -126,8 +128,8 @@ def main():
             im = Image.open(fIn)
             im.load()
             print("*** Image {}:".format(JPEG))
-            quality, sumSqDiffs = computeJPEGQuality(im)
-            print("quality: {}, sumSqDiffs: {}".format(quality, sumSqDiffs))
+            quality, rmsError = computeJPEGQuality(im)
+            print("quality: {}, RMS Error: {}".format(quality, rmsError))
 
 
 if __name__ == "__main__":
