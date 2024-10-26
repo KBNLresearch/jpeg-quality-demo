@@ -90,7 +90,10 @@ def computeJPEGQuality(image):
         for j in range(64):
             # Compute standard luminance table value from scaling factor
             # (Eq 2 in Kornblum, 2008)
-            Tslum = min(max(math.floor((S*lum_base[j] + 50) / 100), 1), 255)
+            Tslum = max(math.floor((S*lum_base[j] + 50) / 100), 1)
+            # Cap Tslum at 255; apparently Pillow only supports bit depth of
+            # 8, see: #https://stackoverflow.com/q/4345337/1209004
+            Tslum = min(Tslum, 255)
             # Update sum of squared errors relative to corresponding
             # image table value
             sumSqErrors += (qdict[0][j] - Tslum)**2
@@ -98,7 +101,10 @@ def computeJPEGQuality(image):
             if noTables >= 2:
                 # Compute standard chrominance table value from scaling factor
                 # (Eq 2 in Kornblum, 2008)
-                Tschrom = min(max(math.floor((S*chrom_base[j] + 50) / 100), 1), 255)
+                Tschrom = max(math.floor((S*chrom_base[j] + 50) / 100), 1)
+                # Cap Tschrom at 255; apparently Pillow only supports bit depth of
+                # 8, see: #https://stackoverflow.com/q/4345337/1209004
+                Tschrom = min(Tschrom, 255)
                 # Update sum of squared errors relative to corresponding
                 # image table value
                 sumSqErrors  += (qdict[1][j] - Tschrom)**2
