@@ -2,7 +2,17 @@
 
 """
 Implement JPEG quality computation based on minimum sum of squared errors
-between quantization tables and standard JPEG quantization tables
+between quantization tables and scaled standard JPEG quantization tables
+for all quality levels
+
+Note that this needs a fairly recent (I think 8.3, but even better 10) version
+of Pillow, as Pillow changed the order of elements in extracted quantization
+tables:
+
+https://github.com/python-pillow/Pillow/pull/4989
+
+Using the wrong order will result in nonsense results for the quantization
+table comparison!
 
 Usage:
 
@@ -12,7 +22,6 @@ quality = computeJPEGQuality1(image)
 ```
 """
 import math
-import array
 import argparse
 from PIL import Image
 
