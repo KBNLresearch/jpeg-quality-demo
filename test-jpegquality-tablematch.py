@@ -68,6 +68,15 @@ def computeJPEGQuality(image):
     qdict = image.quantization
     noTables = len(qdict)
 
+    # Get bit depth of quantization tables by checking for any values
+    # greater than 255
+    qBitDepth = 8
+    if max(qdict[0]) > 255:
+        qBitDepth = 16
+    if noTables >= 2:
+        if max(qdict[1]) > 255:
+            qBitDepth = 16
+
     # List for storing squared error values
     errors = []
 
@@ -91,9 +100,9 @@ def computeJPEGQuality(image):
             # Compute standard luminance table value from scaling factor
             # (Eq 2 in Kornblum, 2008)
             Tslum = max(math.floor((S*lum_base[j] + 50) / 100), 1)
-            # Cap Tslum at 255; apparently Pillow only supports bit depth of
-            # 8, see: #https://stackoverflow.com/q/4345337/1209004
-            Tslum = min(Tslum, 255)
+            # Cap Tslum at 255 if bit depth is 8
+            if qBitDepth == 8:
+                Tslum = min(Tslum, 255)
             # Update sum of squared errors relative to corresponding
             # image table value
             sumSqErrors += (qdict[0][j] - Tslum)**2
@@ -102,9 +111,9 @@ def computeJPEGQuality(image):
                 # Compute standard chrominance table value from scaling factor
                 # (Eq 2 in Kornblum, 2008)
                 Tschrom = max(math.floor((S*chrom_base[j] + 50) / 100), 1)
-                # Cap Tschrom at 255; apparently Pillow only supports bit depth of
-                # 8, see: #https://stackoverflow.com/q/4345337/1209004
-                Tschrom = min(Tschrom, 255)
+                # Cap Tschrom at 255 if bit depth is 8
+                if qBitDepth == 8:
+                    Tschrom = min(Tschrom, 255)
                 # Update sum of squared errors relative to corresponding
                 # image table value
                 sumSqErrors  += (qdict[1][j] - Tschrom)**2
