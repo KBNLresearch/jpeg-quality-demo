@@ -68,8 +68,8 @@ def computeJPEGQuality(image):
     qdict = image.quantization
     noTables = len(qdict)
 
-    # Array for storing squared differences
-    errors = array.array('I')
+    # List for storing squared error values
+    errors = []
 
     # Iterate over all quality levels
     for i in range(100):
