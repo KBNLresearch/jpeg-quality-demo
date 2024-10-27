@@ -22,9 +22,13 @@ Both quality estimation scripts are derived and modified from [the Python port o
 
 ## Data
 
-The directory [images](./images/) contains the following test images:
+The directory [images](./images/) contains the following folders:
 
-- [260761857-bdf17e14-c697-4f4a-b6d5-e3067e0afc08.jpg](./images/260761857-bdf17e14-c697-4f4a-b6d5-e3067e0afc08.jpg): example of problematic JPEG extracted from scanned PDF for which ImageMagick's heuristic fails. 
-- test_pil_0??.jpg: test images compressed at ??% quality using Python's Pillow library.
-- test_im_0??.jpg: test images compressed at ??% quality using ImageMagick.
-- test.tif: source image for all Pillow and ImageMagick tesy images.
+- [im_pil](./images/im_pil/): test images created with Python's Pillow library and and ImageMagick. Each image is compressed at level indicated in filename.
+- [source](./images/source/): source images for all Pillow and ImageMagick test images.
+- [dbnl](./images/dbnl/): examples of problematic access and master JPEGs from DBNL scans.
+- [misc](./images/misc/): miscellaneous images, most of these give different quality estimates depending on which tool/method is used
+
+## Image attribution
+
+- image-98.jpg, image-177.jpg: taken from [sample-images](https://github.com/yavuzceliker/sample-images)
