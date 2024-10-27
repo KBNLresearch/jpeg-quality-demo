@@ -6,6 +6,7 @@ table match method
 """
 import math
 import argparse
+import csv
 from PIL import Image
 
 def parseCommandLine():
@@ -294,8 +295,9 @@ def main():
     myJPEGs =  args.JPEGsIn
     myJPEGs.sort()
     verboseFlag = args.verboseFlag
-
-    print("file,q_im_orig,q_im_mod,exact_im_mod,q_im_tab,rmse_tab")
+    fileOut = "jpeg-quality-comparison.csv"
+    resultList = [["file", "q_im_orig", "q_im_mod",
+                  "exact_im_mod", "q_im_tab", "rmse_tab"]]
 
     for JPEG in myJPEGs:
         with open(JPEG, 'rb') as fIn:
@@ -304,7 +306,12 @@ def main():
             q_im_orig = computeJPEGQuality_im_orig(im, verboseFlag)
             q_im_mod, exact_im_mod = computeJPEGQuality_im_mod(im, verboseFlag)
             q_im_tab, rmse_tab = computeJPEGQuality_table(im)
-            print("{},{},{},{},{},{}".format(JPEG, q_im_orig, q_im_mod, exact_im_mod, q_im_tab, rmse_tab))
+            resultList.append([JPEG, q_im_orig, q_im_mod, exact_im_mod,
+                               q_im_tab, rmse_tab])
+
+    with open(fileOut, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(resultList)
 
 if __name__ == "__main__":
     main()
