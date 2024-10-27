@@ -35,3 +35,4 @@ The directory [images](./images/) contains the following folders:
 - sample-birch-400x300.jpg: taken from [samplelib.com](https://samplelib.com/sample-jpeg.html)
 - sample-jpg-files-sample-4.jpg: taken from [toolsfairy.com](https://toolsfairy.com/tools/image-test/sample-jpg-files)
 - jpeg420exif.jpg, jpeg422jfif.jpg and jpeg444.jpg taken from [w3.org](https://www.w3.org/MarkUp/Test/xhtml-print/20050519/tests/A_2_1-BF-01.htm)
+- hopper_16bit_qtables.jpg: taken from [Pillow test images](https://github.com/python-pillow/Pillow/tree/main/Tests/images).
