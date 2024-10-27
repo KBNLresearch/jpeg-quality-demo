@@ -27,8 +27,11 @@ The directory [images](./images/) contains the following folders:
 - [im_pil](./images/im_pil/): test images created with Python's Pillow library and and ImageMagick. Each image is compressed at level indicated in filename.
 - [source](./images/source/): source images for all Pillow and ImageMagick test images.
 - [dbnl](./images/dbnl/): examples of problematic access and master JPEGs from DBNL scans.
-- [misc](./images/misc/): miscellaneous images, most of these give different quality estimates depending on which tool/method is used
+- [misc](./images/misc/): miscellaneous images, most of these give different quality estimates depending on which tool/method is used.
 
 ## Image attribution
 
 - image-98.jpg, image-177.jpg: taken from [sample-images](https://github.com/yavuzceliker/sample-images)
+- sample-birch-400x300.jpg: taken from [samplelib.com](https://samplelib.com/sample-jpeg.html)
+- sample-jpg-files-sample-4.jpg: taken from [toolsfairy.com](https://toolsfairy.com/tools/image-test/sample-jpg-files)
+- jpeg420exif.jpg, jpeg422jfif.jpg and jpeg444.jpg taken from [w3.org](https://www.w3.org/MarkUp/Test/xhtml-print/20050519/tests/A_2_1-BF-01.htm)
