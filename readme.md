@@ -4,11 +4,21 @@ This repository contains all analysis scripts and data that are covered by the b
 
 ## Scripts
 
-Below scripts were tested with Python 3.8.10. They use the [Pillow Imaging Library](https://python-pillow.org/), which can be installed using:
+Below scripts were tested with Python 3.8.10, with version 10.4.0 of [Pillow Imaging Library](https://python-pillow.org/). Pillow can be installed using:
 
 ```
 pip install pillow
 ```
+
+**Important note on Pillow version:** some of these scripts will either not work or give (very!) wrong results when used with older Pillow versions! This is because Pillow changed the order in which the values in the quantization tables are returned around the release of Pillow 8.3 (I think!), see [details here](https://github.com/python-pillow/Pillow/pull/4989). The below scripts are all based on the new/current behaviour!
+
+Also the [plot-goodness-fit.py](./plot-goodness-fit.py) script needs Pandas. Installation:
+
+```
+pip install pandas
+```
+
+The scripts are:
 
 - [test-jpegquality-im-original.py](./test-jpegquality-im-original.py): computes JPEG quality for one or more files using original ImageMagick heuristic. Option `--verbose` prints out values of all variables in main loop at each iteration.
 - [test-jpegquality-im-modified.py](./test-jpegquality-im-modified.py): computes JPEG quality for one or more files using modified ImageMagick heuristic. Option `--verbose` prints out values of all variables in main loop at each iteration.
@@ -17,8 +27,9 @@ pip install pillow
 - [generate-testimages-pillow.py](./generate-testimages-pillow.py): generates a set of JPEG images at 6 quality levels from a user-defined source image.
 - [generate-testimages-im.sh](./generate-testimages-im.sh): generates a set of JPEG images at 6 quality levels from a user-defined source image using [ImageMagick](https://imagemagick.org/).
 - [test-quantization.py](./test-quantization.py): reads the quantization tables of one or more files and writes the values to 2 comma separated text files.
+- [plot-goodness-fit.py](./plot-goodness-fit.py): creates scatterplots of image vs standard quantization tables and adds relevant measures (Q, RMSE, NSE).
 
-Both quality estimation scripts are derived and modified from [the Python port of ImageMagick's heuristic](https://gist.github.com/eddy-geek/c0f01dc5401dc50a49a0a821cdc9b3e8) by [Eddy O (AKA "eddygeek")](https://github.com/eddy-geek). In turn this port is based on [ImageMagick's original code](https://github.com/ImageMagick/ImageMagick6/blob/bf9bc7fee9f3cea9ab8557ad1573a57258eab95b/coders/jpeg.c#L925).
+Both ImageMagick based quality estimation scripts are derived and modified from [the Python port of ImageMagick's heuristic](https://gist.github.com/eddy-geek/c0f01dc5401dc50a49a0a821cdc9b3e8) by [Eddy O (AKA "eddygeek")](https://github.com/eddy-geek). In turn this port is based on [ImageMagick's original code](https://github.com/ImageMagick/ImageMagick6/blob/bf9bc7fee9f3cea9ab8557ad1573a57258eab95b/coders/jpeg.c#L925).
 
 ## Data
 

@@ -214,8 +214,8 @@ def main():
     # Add 1:1 line
     myPlot.axline([0, 0], [1, 1], linewidth=1, linestyle='dashed', color = 'r')
     # Add text
-    #myPlot.text(0, 0.8*TsMax, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
-    myPlot.text(40, 10, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
+    myPlot.text(0, 0.8*TsMax, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
+    #myPlot.text(40, 10, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
     fig = myPlot.get_figure()
     fig.savefig(f'{baseName}-scatter.png', dpi=150)
 
