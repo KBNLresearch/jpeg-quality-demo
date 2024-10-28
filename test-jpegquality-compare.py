@@ -324,7 +324,7 @@ def main():
     verboseFlag = args.verboseFlag
     fileOut = "jpeg-quality-comparison.csv"
     resultList = [["file", "q_im_orig", "q_im_mod",
-                  "exact_im_mod", "q_im_tab", "rmse_tab", "nse_tab"]]
+                  "exact_im_mod", "q_tab", "rmse_tab", "nse_tab"]]
 
     for JPEG in myJPEGs:
         with open(JPEG, 'rb') as fIn:
