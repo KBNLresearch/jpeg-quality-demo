@@ -41,7 +41,7 @@ def parseCommandLine():
 
 
 def computeJPEGQuality(image):
-    """Returns JPEG quality based on best correspondence between image
+    """Estimates JPEG quality based on best correspondence between image
     quantization tables and standard tables from the JPEG ISO standard.
     
     The image quantization tables are compared against standard quantization
@@ -77,17 +77,27 @@ def computeJPEGQuality(image):
     qdict = image.quantization
     noTables = len(qdict)
 
-    # Get bit depth of quantization tables by checking for any values
-    # greater than 255
+    # Default quantization table bit depth
     qBitDepth = 8
+
     if max(qdict[0]) > 255:
+        # Any values greater than 255 indicate bir depth 16 
         qBitDepth = 16
     if noTables >= 2:
         if max(qdict[1]) > 255:
             qBitDepth = 16
 
+    # Calculate mean of all value in quantization tables
+    Tsum = sum(qdict[0])
+    if noTables >= 2:
+        Tsum += sum(qdict[1])
+    Tmean = Tsum / (noTables*64)
+
     # List for storing squared error values
     errors = []
+
+    # List for storing Nash–Sutcliffe Efficiency values
+    nseVals = []
 
     # Iterate over all quality levels
     for i in range(100):
@@ -99,10 +109,13 @@ def computeJPEGQuality(image):
         else:
             S = 200 - 2*Q
 
-        # Initialize sum of squared errors, which is used to characterize
-        # agreement between image q tables and standard q tables for each
-        # quality level
+        # Initialize sum of squared differences between image quantization values
+        # and corresponding values from standard q tables for this quality level
         sumSqErrors = 0
+
+        # Initialize sum of squared differences between image quantization values
+        # and mean image quantization value (needed to calculate Nash Efficiency)
+        sumSqMean = 0
 
         # Iterate over all values in quantization tables for this quality
         for j in range(64):
@@ -116,6 +129,9 @@ def computeJPEGQuality(image):
             # image table value
             sumSqErrors += (qdict[0][j] - Tslum)**2
 
+            # Sum of luminance and chrominance values          
+            Tcombi = qdict[0][j]
+
             if noTables >= 2:
                 # Compute standard chrominance table value from scaling factor
                 # (Eq 2 in Kornblum, 2008)
@@ -127,9 +143,20 @@ def computeJPEGQuality(image):
                 # image table value
                 sumSqErrors  += (qdict[1][j] - Tschrom)**2
 
+                # Update sum of luminance and chrominance values
+                Tcombi += qdict[1][j]
+   
+            # Update sumSqMMean
+            sumSqMean += (Tcombi - Tmean)**2
+
             j += 1
 
+        # Calculate Nash-Sutcliffe Effiency
+        nse = 1 - sumSqErrors/sumSqMean
+
+        # Add calculated statistics to lists
         errors.append(sumSqErrors)
+        nseVals.append(nse)
 
     # Quality is estimated as level with smallest sum of squared errors
     # Note that this will return the smallest quality level in case
@@ -140,10 +167,10 @@ def computeJPEGQuality(image):
     # quantization tables. Any other value means non-standard tables were
     # used, and quality estimate is an approximation
     sumSqErrors = min(errors)
-    # Compute corresponding root mean squared error (easier to interpret)
+    # Compute corresponding root mean squared error
     rmsError = round(math.sqrt(sumSqErrors / (noTables * 64)), 3)
-
-    return qualityEst, rmsError
+    nse = round(max(nseVals), 3)
+    return qualityEst, rmsError, nse
 
 
 def main():
@@ -156,8 +183,8 @@ def main():
             im = Image.open(fIn)
             im.load()
             print("*** Image {}:".format(JPEG))
-            quality, rmsError = computeJPEGQuality(im)
-            print("quality: {}, RMS Error: {}".format(quality, rmsError))
+            quality, rmsError, nse = computeJPEGQuality(im)
+            print("quality: {}, RMS Error: {}, NSE: {}".format(quality, rmsError, nse))
 
 
 if __name__ == "__main__":
