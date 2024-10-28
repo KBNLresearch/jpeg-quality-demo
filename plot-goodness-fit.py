@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 """
-Write CSV file with luminance, chrominance values from quantization tables,
-as well as corresponding values from closest "standard" tables.
+Generate scatter plot of values from quantization tables versus corresponding
+values from closest "standard" tables. Note that and luminance, chrominance are
+combined in the same plot.
 """
 
 import os
@@ -213,7 +214,8 @@ def main():
     # Add 1:1 line
     myPlot.axline([0, 0], [1, 1], linewidth=1, linestyle='dashed', color = 'r')
     # Add text
-    myPlot.text(0, 0.8*TsMax, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
+    #myPlot.text(0, 0.8*TsMax, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
+    myPlot.text(40, 10, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
     fig = myPlot.get_figure()
     fig.savefig(f'{baseName}-scatter.png', dpi=150)
 
