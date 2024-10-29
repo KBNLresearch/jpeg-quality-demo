@@ -182,7 +182,7 @@ def main():
         with open(JPEG, 'rb') as fIn:
             im = Image.open(fIn)
             im.load()
-            print("*** Image {}:".format(JPEG))
+            print("*** Image: {}".format(JPEG))
             quality, rmsError, nse = computeJPEGQuality(im)
             print("quality: {}, RMS Error: {}, NSE: {}".format(quality, rmsError, nse))
 
