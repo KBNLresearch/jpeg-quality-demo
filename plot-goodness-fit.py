@@ -229,8 +229,8 @@ def main():
     TsMax = max(df.max(axis=0)['Tls'], df.max(axis=0)['Tcs'])
 
     # Create scatter plots of actual vs standard quantization coefficients
-    myPlot = df.plot.scatter(x = 'Tl', y = 'Tls', s = 20, color = 'r', legend = True)
-    myPlot = df.plot.scatter(x = 'Tc', y = 'Tcs', s = 20, color = 'b', ax=myPlot, legend = True)
+    myPlot = df.plot.scatter(x = 'Tl', y = 'Tls', s = 20, color = 'r', legend = True, xlabel = 'T', ylabel = 'Ts')
+    myPlot = df.plot.scatter(x = 'Tc', y = 'Tcs', s = 20, color = 'b', ax=myPlot, legend = True, xlabel = 'T', ylabel = 'Ts')
     # Add legend
     myPlot.legend(['Luminance', 'Chrominance'], loc='best')
     # Add 1:1 line
