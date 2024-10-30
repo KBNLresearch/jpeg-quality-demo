@@ -3,7 +3,11 @@
 """
 JPEG quality least squares matching demo.
 
-Johan van der Knijff, 2024
+Johan van der Knijff, KB National Library of the Netherlands, 2024.
+
+See also:
+
+https://www.bitsgalore.org/2024/10/30/jpeg-quality-estimation-using-simple-least-squares-matching-of-quantization-tables
 
 """
 import math
