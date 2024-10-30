@@ -21,6 +21,18 @@ def parseCommandLine():
                         action="store",
                         type=str,
                         help="input JPEG")
+    parser.add_argument('-x',
+                        action="store",
+                        type = int,
+                        help="horizontal position of text annotation",
+                        dest="textXpos",
+                        default=None)
+    parser.add_argument('-y',
+                        action="store",
+                        type = int,
+                        help="vertical position of text annotation",
+                        dest="textYpos",
+                        default=None)
 
     # Parse arguments
     args = parser.parse_args()
@@ -148,7 +160,7 @@ def computeJPEGQuality(image):
 
                 # Update sum of luminance and chrominance values
                 Tcombi += qdict[1][j]
-   
+
             # Update sumSqMMean
             sumSqMean += (Tcombi - Tmean)**2
 
@@ -182,6 +194,8 @@ def computeJPEGQuality(image):
 def main():
     args = parseCommandLine()
     myJPEG =  args.JPEGIn
+    textXpos = args.textXpos
+    textYpos = args.textYpos
 
     fileName = os.path.basename(myJPEG)
     baseName = os.path.splitext(fileName)[0]
@@ -197,34 +211,40 @@ def main():
         for i in range(len(qtables[0])):
             lum = qtables[0][i]
             lum_s = qTablesStandard[0][i]
-            listOut.append([lum, lum_s])
+            chrom = None
+            chrom_s = None
             if noTables >= 2:
                 chrom = qtables[1][i]
                 chrom_s = qTablesStandard[1][i]
                 listOut.append([chrom, chrom_s])
+            listOut.append([lum, lum_s, chrom, chrom_s])
 
     # Convert list to Pandas dataframe
-    df = pd.DataFrame(listOut, columns=["T", "Ts"])
+    df = pd.DataFrame(listOut, columns=["Tl", "Tls", "Tc", "Tcs"])
 
-    # Maximum Ts value (used for plot)
-    TsMax = df.max(axis=0)['Ts']
+    # Minimum and maximum T and Ts values (used for text positioning)
+    TMin = min(df.min(axis=0)['Tl'], df.min(axis=0)['Tc'])
+    TsMin = min(df.min(axis=0)['Tls'], df.min(axis=0)['Tcs'])
+    TMax = max(df.max(axis=0)['Tl'], df.max(axis=0)['Tc'])
+    TsMax = max(df.max(axis=0)['Tls'], df.max(axis=0)['Tcs'])
 
-    # Create scatter plot of actual vs standard quantization values
-    myPlot = df.plot.scatter(x = 'T', y = 'Ts', s = 20, color = 'b')
+    # Create scatter plots of actual vs standard quantization coefficients
+    myPlot = df.plot.scatter(x = 'Tl', y = 'Tls', s = 20, color = 'r', legend = True)
+    myPlot = df.plot.scatter(x = 'Tc', y = 'Tcs', s = 20, color = 'b', ax=myPlot, legend = True)
+    # Add legend
+    myPlot.legend(['Luminance', 'Chrominance'], loc='best')
     # Add 1:1 line
-    myPlot.axline([0, 0], [1, 1], linewidth=1, linestyle='dashed', color = 'r')
-    # Add text
-    #myPlot.text(0, 0.8*TsMax, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
-    myPlot.text(40, 0, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
+    myPlot.axline([0, 0], [1, 1], linewidth=1, linestyle='dashed', color = 'g')
+    # Set defaults for text annotation position if not set from command line
+    if textXpos is None:
+        textXpos = 0.5*TMax
+    if textYpos is None:
+        textYpos = 0 
+    # Add text annotation
+    myPlot.text(textXpos, textYpos, f'{fileName}\nQuality = {quality}%\nRMSE = {rmse}\nNSE = {nse}')
     fig = myPlot.get_figure()
     fig.savefig(f'{baseName}-scatter.png', dpi=150)
 
-    """
-    with open(f'{baseName}-qvalues.csv', "w", encoding="UTF-8") as fp:
-        writer = csv.writer(fp, delimiter=",")
-        for row in listOut:
-            writer.writerow(row)
-    """
 
 if __name__ == "__main__":
     main()
