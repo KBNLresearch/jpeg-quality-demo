@@ -41,16 +41,18 @@ def parseCommandLine():
 
 
 def computeJPEGQuality(image):
-    """Estimates JPEG quality based on best correspondence between image
+    """Estimates JPEG quality using least squares matching between image
     quantization tables and standard tables from the JPEG ISO standard.
     
-    The image quantization tables are compared against standard quantization
+    This compares the image quantization tables against the standard quantization
     tables for *all* possible quality levels, which are generated using
     Equations 1 and 2 in Kornblum (2008):
 
     https://www.sciencedirect.com/science/article/pii/S1742287608000285
 
-    (Also explained in: https://stackoverflow.com/a/29216609/1209004)
+    Returns quality estimate, root mean squared error of residuals between
+    image quantization coefficients and corresponding standard coefficients,
+    and Nash-Sutcliffe Efficiency measure.
     """
 
     # Standard JPEG luminance and chrominance quantization tables
@@ -145,7 +147,7 @@ def computeJPEGQuality(image):
 
                 # Update sum of luminance and chrominance values
                 Tcombi += qdict[1][j]
-   
+
             # Update sumSqMMean
             sumSqMean += (Tcombi - Tmean)**2
 
