@@ -2,7 +2,7 @@
 
 """
 Estimate JPEG quality using ImageMagick heuristic, modified ImageMagick heuristic and
-lesst square matching method
+least squares matching method
 """
 import math
 import argparse
