@@ -164,15 +164,18 @@ def computeJPEGQuality(image):
     # Note that this will return the smallest quality level in case
     # the smallest SSE occurs for more than one level!
     # TODO: perhaps add a check for this and report as output?
-    qualityEst = errors.index(min(errors)) + 1
+    #qualityEst = errors.index(min(errors)) + 1
     # Corresponding SSE. Value 0 indicates exact match with standard JPEG
     # quantization tables. Any other value means non-standard tables were
     # used, and quality estimate is an approximation
     sumSqErrors = min(errors)
+    # List of all qualities that match sumSqErrors
+    qualityEstimates = [i + 1 for i, x in enumerate(errors) if x == sumSqErrors]
+
     # Compute corresponding root mean squared error
     rmsError = round(math.sqrt(sumSqErrors / (noTables * 64)), 3)
     nse = round(max(nseVals), 3)
-    return qualityEst, rmsError, nse
+    return qualityEstimates, rmsError, nse
 
 
 def main():
@@ -195,10 +198,15 @@ def main():
         with open(myJPEG, 'rb') as fIn:
             im = Image.open(fIn)
             im.load()
-            quality, rmse, nse,  = computeJPEGQuality(im)
-
-        deltaQ = abs(quality - qav)
-        listOut.append([qlum, qchrom, qav, quality, deltaQ, rmse, nse])
+            qualities, rmse, nse,  = computeJPEGQuality(im)
+            noMatches = len(qualities)
+            if noMatches >= 2:
+                print("multiple matches for {} with quality estimates:".format(fileName))
+                for quality in qualities:
+                    print(quality)
+            for quality in qualities:
+                deltaQ = abs(quality - qav)
+                listOut.append([qlum, qchrom, qav, quality, deltaQ, rmse, nse])
 
     # Convert list to Pandas dataframe
     df = pd.DataFrame(listOut, columns=["Qlum", "Qchrom", "Qav", "Qlsm", "deltaQ", "RMSE", "NSE"])
