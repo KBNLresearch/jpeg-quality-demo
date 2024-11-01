@@ -22,11 +22,9 @@ dirOut="$2"
 fName=$(basename "$imageIn")
 bName=${fName%%.*}
 
-declare -a qualities=("5" "10" "25" "50" "75" "100")
-
-for qlum in "${qualities[@]}"
+for qlum in {1..100}
   do
-    for qchrom in "${qualities[@]}"
+    for qchrom in {1..100}
       do
         i=$(printf %03d $qlum)
         j=$(printf %03d $qchrom)
