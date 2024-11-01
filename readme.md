@@ -1,6 +1,9 @@
 ## About
 
-This repository contains all analysis scripts and data that are covered by the blog post [JPEG Quality estimation: experiments with a modified ImageMagick heuristic](https://www.bitsgalore.org/2024/10/23/jpeg-quality-estimation-experiments-with-a-modified-imagemagick-heuristic).
+This repository contains all analysis scripts and data that were used for the following blog posts:
+
+- [JPEG Quality estimation: experiments with a modified ImageMagick heuristic](https://www.bitsgalore.org/2024/10/23/jpeg-quality-estimation-experiments-with-a-modified-imagemagick-heuristic)
+- [JPEG quality estimation using simple least squares matching of quantization tables](https://www.bitsgalore.org/2024/10/30/jpeg-quality-estimation-using-simple-least-squares-matching-of-quantization-tables)
 
 ## Scripts
 
