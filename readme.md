@@ -29,8 +29,10 @@ The scripts are:
 - [jpegquality-compare.py](./jpegquality-compare.py): computes JPEG quality for one or more files using all of the above methods, and write results in comma-delimited format. 
 - [generate-testimages-pillow.py](./generate-testimages-pillow.py): generates a set of JPEG images at 6 quality levels from a user-defined source image.
 - [generate-testimages-im.sh](./generate-testimages-im.sh): generates a set of JPEG images at 6 quality levels from a user-defined source image using [ImageMagick](https://imagemagick.org/).
+- [generate-testimages-cjpeg.sh](./generate-testimages-cjpeg.sh): generates 10 thousand images at all possible luminance, chrominance quality combinations using [cjpeg](https://linux.die.net/man/1/cjpeg).
 - [test-quantization.py](./test-quantization.py): reads the quantization tables of one or more files and writes the values to 2 comma separated text files.
 - [plot-goodness-fit.py](./plot-goodness-fit.py): creates scatterplots of image vs standard quantization tables and adds relevant measures (Q, RMSE, NSE).
+- [cjpeg-sensitivity.py](./cjpeg-sensitivity.py): performs simple sensitivity analysis on cjpeg-generated test images and creates scatter plots. This uses the output of [generate-testimages-cjpeg.sh](./generate-testimages-cjpeg.sh).
 
 Both ImageMagick based quality estimation scripts are derived and modified from [the Python port of ImageMagick's heuristic](https://gist.github.com/eddy-geek/c0f01dc5401dc50a49a0a821cdc9b3e8) by [Eddy O (AKA "eddygeek")](https://github.com/eddy-geek). In turn this port is based on [ImageMagick's original code](https://github.com/ImageMagick/ImageMagick6/blob/bf9bc7fee9f3cea9ab8557ad1573a57258eab95b/coders/jpeg.c#L925).
 
